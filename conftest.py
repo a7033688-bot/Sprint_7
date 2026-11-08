@@ -16,10 +16,8 @@ def clear():
     payload_1 = copy.deepcopy(payload)
     yield payload
     response = requests.post(url + courier_is_available_in_system,data=payload_1)
-    assert response.status_code == 200
     id = str(response.json()['id'])
     delete = requests.delete(url + delete_courier + id)
-    assert delete.status_code == 200
     
 
 

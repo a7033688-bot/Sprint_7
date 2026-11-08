@@ -25,17 +25,15 @@ class TestCreatingCourier:
         assert 'Этот логин уже используется' in response.text
 
     @allure.title('тест проверяет что можно создать курьера введя обязательные поля ') 
-    def test_all_required_fields_must_be_specified_in_main_text(self,):
+    def test_all_required_fields_must_be_specified_in_main_text(self):
         payload = copy.deepcopy(PAYLOAD)
         response = requests.post(url + creating_courier, data=payload)
         assert response.status_code == 201
         assert 'ok' in response.text
         del payload['firstName']
         response = requests.post(url + courier_is_available_in_system, data=payload)
-        if response.status_code == 200:
-            id = str(response.json()['id'])
-            delete = requests.delete(url + delete_courier + id)
-        
+        id = str(response.json()['id'])
+        delete = requests.delete(url + delete_courier + id)   
 
     @allure.title('успешный запрос возвращает правильный текст ответа')
     def test_upon_successful_completion_of_request_correct_response_text_is_returned(self):
@@ -45,9 +43,8 @@ class TestCreatingCourier:
         assert response.status_code == 201
         del payload['firstName']
         response = requests.post(url + courier_is_available_in_system, data=payload)
-        if response.status_code == 200:
-            id = str(response.json()['id'])
-            delete = requests.delete(url + delete_courier + id)
+        id = str(response.json()['id'])
+        delete = requests.delete(url + delete_courier + id)
 
     @allure.title('негативный тест. при отсутствие поля логин новый курьер не создастся')
     def test_login_field_is_missing_new_courier_will_not_be_created(self):
